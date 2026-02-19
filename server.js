@@ -27,9 +27,9 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-    const reply = data.output_text;
+const reply = data.output[0].content[0].text;
 
-    res.json({ reply });
+res.json({ reply });
 
   } catch (error) {
     console.log(error);
