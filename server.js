@@ -27,7 +27,13 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-const reply = data.output[0].content[0].text;
+let reply = "Aku tidak mengerti 😅";
+
+try {
+  reply = data.output[0].content[0].text;
+} catch (e) {
+  console.log("Format respon berubah:", data);
+}
 
 res.json({ reply });
 
