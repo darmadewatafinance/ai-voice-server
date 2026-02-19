@@ -31,7 +31,7 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-    const reply = data.choices[0].message.content;
+    const aiReply = response.data.output[0].content[0].text;
 
     res.json({ reply });
 
