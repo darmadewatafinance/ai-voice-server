@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 
@@ -12,32 +11,29 @@ app.get("/", (req, res) => {
 
 app.post("/chat", async (req, res) => {
   try {
-    const message = req.body.message;
+    const userMessage = req.body.message;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "Kamu adalah AI teman ngobrol yang santai, hangat, dan suka menanggapi percakapan seperti manusia." },
-          { role: "user", content: message }
-        ]
+        model: "gpt-4.1-mini",
+        input: userMessage
       })
     });
 
     const data = await response.json();
 
-    const aiReply = response.data.output[0].content[0].text;
+    const reply = data.output[0].content[0].text;
 
     res.json({ reply });
 
   } catch (error) {
     console.log(error);
-    res.json({ reply: "Aduh aku lagi pusing mikir 😵 coba lagi ya..." });
+    res.json({ reply: "AI kelelahan 😵 coba lagi..." });
   }
 });
 
